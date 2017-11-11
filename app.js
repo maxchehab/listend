@@ -1,4 +1,4 @@
-const server = require("./server/server");
+const server = require("./src/server/server");
 
 const dev = process.env.NODE_ENV !== "production";
 const next = require("next");
