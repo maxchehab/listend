@@ -1,7 +1,6 @@
 import Radium from "radium";
 import React from "react";
-import Progress from "react-progressbar";
-import ReactFitText from "react-fittext";
+import Progress from "./Progress";
 
 @Radium
 export default class MusicPlayer extends React.Component {
@@ -26,16 +25,10 @@ export default class MusicPlayer extends React.Component {
   render() {
     return (
       <div style={[styles.audioPlayer, { height: this.state.height }]}>
-        <div
-          onClick={this.toggle}
-          style={[
-            styles.playButton,
-            {
-              backgroundImage: this.state.playing
-                ? "url(/static/player/pause-button.png)"
-                : "url(/static/player/play-button.png)"
-            }
-          ]}
+        <div onClick={this.toggle} style={[styles.playButton]} />
+        <img
+          style={[styles.albumImage, { height: this.state.height }]}
+          src={this.props.artwork}
         />
         <div style={styles.playerControls}>
           <p
@@ -44,7 +37,8 @@ export default class MusicPlayer extends React.Component {
               marginTop: this.state.height * 0.05,
               marginBottom: this.state.height * 0.05,
               marginLeft: 0,
-              marginRight: 0
+              marginRight: 0,
+              color: "white"
             }}
           >
             {this.props.title}
@@ -55,6 +49,7 @@ export default class MusicPlayer extends React.Component {
             <div style={{ textAlign: "center" }}>
               <small
                 style={{
+                  color: "#a0a0a0",
                   float: "left",
                   bottom: -3,
                   position: "relative",
@@ -66,12 +61,13 @@ export default class MusicPlayer extends React.Component {
               <div style={styles.progress}>
                 <Progress
                   height={5}
-                  color={"blue"}
+                  color={"#1ed760"}
                   completed={this.state.progress}
                 />
               </div>
               <small
                 style={{
+                  color: "#a0a0a0",
                   float: "right",
                   bottom: -3,
                   position: "relative",
@@ -83,10 +79,6 @@ export default class MusicPlayer extends React.Component {
             </div>
           </span>
         </div>
-        <img
-          style={[styles.albumImage, { height: this.state.height }]}
-          src={this.props.artwork}
-        />
       </div>
     );
   }
@@ -94,20 +86,23 @@ export default class MusicPlayer extends React.Component {
 
 const styles = {
   playButton: {
-    backgroundSize: "cover",
-    width: "75px",
-    height: "75px",
-    margin: "2rem 0 2rem 2rem",
-    opacity: 0.85,
-    cursor: "pointer",
-    ":hover": {
-      opacity: 1
-    }
+    position: "absolute",
+    width: 64,
+    height: 64,
+    left: 7,
+    top: 7,
+    backgroundColor: "transparent",
+    backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTI2MCAxNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yNTIgMEgxMjZDOTEuMyAwIDYxLjcgMTIuMyAzNyAzNyAxMi4zIDYxLjcgMCA5MS4zIDAgMTI2djEyNjBjMCAzNC43IDEyLjMgNjQuMyAzNyA4OSAyNC43IDI0LjcgNTQuMyAzNyA4OSAzN2gxMjZjMzQuNyAwIDY0LjMtMTIuMyA4OS0zNyAyNC43LTI0LjcgMzctNTQuMyAzNy04OVYxMjZjMC0zNC43LTEyLjMtNjQuMy0zNy04OS0yNC43LTI0LjctNTQuMy0zNy04OS0zN3ptODgyIDBoLTEyNmMtMzQuNyAwLTY0LjMgMTIuMy04OSAzNy0yNC43IDI0LjctMzcgNTQuMy0zNyA4OXYxMjYwYzAgMzQuNyAxMi4zIDY0LjMgMzcgODkgMjQuNyAyNC43IDU0LjMgMzcgODkgMzdoMTI2YzM0LjcgMCA2NC4zLTEyLjMgODktMzcgMjQuNy0yNC43IDM3LTU0LjMgMzctODlWMTI2YzAtMzQuNy0xMi4zLTY0LjMtMzctODktMjQuNy0yNC43LTU0LjMtMzctODktMzd6IiBmaWxsPSIjZmZmIi8+PC9zdmc+")`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: 24,
+    backgroundPosition: "58% 50%",
+    borderRadius: 500,
+    border: "1px solid #a0a0a0",
+    cursor: "pointer"
   },
   audioPlayer: {
     margin: 15,
-    background: "white",
-    border: "1px solid blue",
+    background: "#282828",
     textAlign: "center",
     display:
       "-webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex",
@@ -124,10 +119,10 @@ const styles = {
   },
   progress: {
     width: "90%",
-    borderRadius: "2px",
+    borderRadius: "3px",
     display: "inline-block",
-    border: "1px solid #dfdfdf",
-    appearance: "none"
+    border: "1px solid #transparent",
+    backgroundColor: "#404040"
   }
 };
 
