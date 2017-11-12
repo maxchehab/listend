@@ -16,7 +16,6 @@ export default class MusicPlayer extends React.Component {
   }
 
   _toggle() {
-    console.log("we changing");
     this.setState({
       playing: !this.state.playing
     });
@@ -25,7 +24,17 @@ export default class MusicPlayer extends React.Component {
   render() {
     return (
       <div style={[styles.audioPlayer, { height: this.state.height }]}>
-        <div onClick={this.toggle} style={[styles.playButton]} />
+        <div
+          onClick={this.toggle}
+          style={[
+            styles.playButton,
+            {
+              backgroundImage: this.state.playing
+                ? "url(/static/player/pause.svg)"
+                : "url(/static/player/play.svg)"
+            }
+          ]}
+        />
         <img
           style={[styles.albumImage, { height: this.state.height }]}
           src={this.props.artwork}
@@ -87,20 +96,25 @@ export default class MusicPlayer extends React.Component {
 const styles = {
   playButton: {
     position: "absolute",
-    width: 64,
     height: 64,
     left: 7,
     top: 7,
     backgroundColor: "transparent",
-    backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTI2MCAxNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yNTIgMEgxMjZDOTEuMyAwIDYxLjcgMTIuMyAzNyAzNyAxMi4zIDYxLjcgMCA5MS4zIDAgMTI2djEyNjBjMCAzNC43IDEyLjMgNjQuMyAzNyA4OSAyNC43IDI0LjcgNTQuMyAzNyA4OSAzN2gxMjZjMzQuNyAwIDY0LjMtMTIuMyA4OS0zNyAyNC43LTI0LjcgMzctNTQuMyAzNy04OVYxMjZjMC0zNC43LTEyLjMtNjQuMy0zNy04OS0yNC43LTI0LjctNTQuMy0zNy04OS0zN3ptODgyIDBoLTEyNmMtMzQuNyAwLTY0LjMgMTIuMy04OSAzNy0yNC43IDI0LjctMzcgNTQuMy0zNyA4OXYxMjYwYzAgMzQuNyAxMi4zIDY0LjMgMzcgODkgMjQuNyAyNC43IDU0LjMgMzcgODkgMzdoMTI2YzM0LjcgMCA2NC4zLTEyLjMgODktMzcgMjQuNy0yNC43IDM3LTU0LjMgMzctODlWMTI2YzAtMzQuNy0xMi4zLTY0LjMtMzctODktMjQuNy0yNC43LTU0LjMtMzctODktMzd6IiBmaWxsPSIjZmZmIi8+PC9zdmc+")`,
+    width: "64px",
+    transform: "scale(.6)",
     backgroundRepeat: "no-repeat",
     backgroundSize: 24,
-    backgroundPosition: "58% 50%",
+    backgroundColor: "rgba(0,0,0,.7)",
+    backgroundPosition: "55% 50%",
     borderRadius: 500,
     border: "1px solid #a0a0a0",
-    cursor: "pointer"
+    cursor: "pointer",
+    ":hover": {
+      border: "1px solid #1ed760"
+    }
   },
   audioPlayer: {
+    position: "relative",
     margin: 15,
     background: "#282828",
     textAlign: "center",

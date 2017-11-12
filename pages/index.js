@@ -15,14 +15,6 @@ export default class Welcome extends React.Component {
           height={80}
           progress={40}
         />
-
-        <iframe
-          src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf"
-          width="1500"
-          height="100"
-          frameborder="0"
-          allowtransparency="true"
-        />
       </div>
     );
   }
