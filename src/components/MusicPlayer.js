@@ -1,133 +1,137 @@
+import Radium from "radium";
 import React from "react";
+import Progress from "react-progressbar";
+import ReactFitText from "react-fittext";
 
+@Radium
 export default class MusicPlayer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { playing: false, length: "5:26", progress: 0.5 };
-    this.togglePause = this._togglePause.bind(this);
+    this.state = {
+      playing: this.props.playing,
+      length: this.props.length,
+      progress: this.props.progress,
+      height: this.props.height
+    };
+    this.toggle = this._toggle.bind(this);
   }
 
-  _togglePause() {
-    const pause =
-      "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
-    const play = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
-    let animation = document.getElementById("animation");
-
-    console.log(animation);
-
-    this.setState({ playing: !this.state.playing });
-    animation.setAttribute("from", this.state.playing ? pause : play);
-    animation.setAttribute("to", this.state.playing ? play : pause);
-    animation.beginElement();
+  _toggle() {
+    console.log("we changing");
+    this.setState({
+      playing: !this.state.playing
+    });
   }
 
   render() {
-    let svgTag = `<svg width="100%" height="100%" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <defs>
-         <path id="ytp-12" d="M 11 10 L 17 10 L 17 26 L 11 26 M 20 10 L 26 10 L 26 26 L 20 26">
-            <animate id="animation" begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" dur="0.1s" keySplines=".4 0 1 1"
-            repeatCount="1"></animate>
-         </path>
-      </defs>
-      <use xlink:href="#ytp-12" class="ytp-svg-shadow"></use>
-      <use xlink:href="#ytp-12" class="ytp-svg-fill"></use>
-   </svg>`;
-
     return (
-      <div className="audio-player">
-        <style global jsx>{`
-          .ytp-play-button {
-            fill: #1ed760;
-            opacity: 0.85;
-            outline: none;
-            border: 0px solid;
-            background: transparent;
-            width: 75px;
-            height: 75px;
-            margin: 2rem 0 2rem 2rem;
-          }
-
-          .ytp-play-button:hover {
-            cursor: pointer;
-            opacity: 1;
-          }
-
-          .audio-player {
-            background: white;
-            border: 1px solid #70eb9c;
-            text-align: center;
-            display: flex;
-            flex-flow: row;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          }
-          .audio-player .album-image {
-            height: 142px;
-          }
-          .audio-player .player-controls {
-            align-items: center;
-            justify-content: center;
-            margin-top: 2.5rem;
-            flex: 3;
-          }
-          .audio-player .player-controls progress {
-            width: 90%;
-          }
-          .audio-player .player-controls progress[value] {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: white;
-            color: blue;
-            height: 5px;
-          }
-          .audio-player .player-controls progress[value]::-webkit-progress-bar {
-            background-color: white;
-            border-radius: 2px;
-            border: 1px solid #dfdfdf;
-            color: blue;
-          }
-          .audio-player .player-controls progress::-webkit-progress-value {
-            background-color: #1ed760;
-          }
-          .audio-player .player-controls p {
-            font-size: 1.6rem;
-            margin: 0;
-          }
-        `}</style>
-        <button
-          onClick={this.togglePause}
-          dangerouslySetInnerHTML={{ __html: svgTag }}
-          className="ytp-play-button ytp-button"
-          aria-live="assertive"
-          tabIndex="32"
-          aria-label="Pause"
+      <div style={[styles.audioPlayer, { height: this.state.height }]}>
+        <div
+          onClick={this.toggle}
+          style={[
+            styles.playButton,
+            {
+              backgroundImage: this.state.playing
+                ? "url(/static/player/play-button.png)"
+                : "url(/static/player/pause-button.png)"
+            }
+          ]}
         />
-
-        <div className={"player-controls scrubber"}>
-          <p>
+        <div style={styles.playerControls}>
+          <p
+            style={{
+              fontSize: this.state.height * 0.3,
+              marginTop: this.state.height * 0.05,
+              marginBottom: this.state.height * 0.05,
+              marginLeft: 0,
+              marginRight: 0
+            }}
+          >
             Oslo <small>by</small> Holy Esque
           </p>
-          <span id="seekObjContainer">
-            <progress id="seekObj" value={this.state.progress} max="1" />
+
+          <span>
+            <div style={{ textAlign: "center" }}>
+              <small
+                style={{
+                  float: "left",
+                  bottom: -3,
+                  position: "relative",
+                  left: "15px"
+                }}
+              >
+                2:46
+              </small>
+              <div style={styles.progress}>
+                <Progress
+                  height={5}
+                  color={"blue"}
+                  completed={this.state.progress}
+                />
+              </div>
+              <small
+                style={{
+                  float: "right",
+                  bottom: -3,
+                  position: "relative",
+                  right: "20px"
+                }}
+              >
+                {this.state.length}
+              </small>
+            </div>
           </span>
-          <br />
-          <small
-            style={{ float: "left", position: "relative", left: "15px" }}
-            className="start-time"
-          >
-            2:46
-          </small>
-          <small
-            style={{ float: "right", position: "relative", right: "20px" }}
-            className="end-time"
-          >
-            {this.state.length}
-          </small>
         </div>
         <img
-          className="album-image"
+          style={[styles.albumImage, { height: this.state.height }]}
           src="https://artwork-cdn.7static.com/static/img/sleeveart/00/051/614/0005161476_350.jpg"
         />
       </div>
     );
   }
 }
+
+const styles = {
+  playButton: {
+    backgroundSize: "cover",
+    width: "75px",
+    height: "75px",
+    margin: "2rem 0 2rem 2rem",
+    opacity: 0.85,
+    cursor: "pointer",
+    ":hover": {
+      opacity: 1
+    }
+  },
+  audioPlayer: {
+    background: "white",
+    border: "1px solid blue",
+    textAlign: "center",
+    display:
+      "-webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex",
+    flexFlow: "row",
+    fontFamily: `"Helvetica Neue",Helvetica,Arial,sans-serif`
+  },
+  albumImage: {
+    height: "142px"
+  },
+  playerControls: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 3
+  },
+  progress: {
+    width: "90%",
+    borderRadius: "2px",
+    display: "inline-block",
+    border: "1px solid #dfdfdf",
+    appearance: "none"
+  }
+};
+
+MusicPlayer.defaultProps = {
+  playing: false,
+  length: "0:00",
+  progress: 0,
+  height: 150
+};
