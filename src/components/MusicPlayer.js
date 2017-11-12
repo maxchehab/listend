@@ -32,8 +32,8 @@ export default class MusicPlayer extends React.Component {
             styles.playButton,
             {
               backgroundImage: this.state.playing
-                ? "url(/static/player/play-button.png)"
-                : "url(/static/player/pause-button.png)"
+                ? "url(/static/player/pause-button.png)"
+                : "url(/static/player/play-button.png)"
             }
           ]}
         />
@@ -47,7 +47,8 @@ export default class MusicPlayer extends React.Component {
               marginRight: 0
             }}
           >
-            Oslo <small>by</small> Holy Esque
+            {this.props.title}
+            <small> by </small> {this.props.artist}
           </p>
 
           <span>
@@ -84,7 +85,7 @@ export default class MusicPlayer extends React.Component {
         </div>
         <img
           style={[styles.albumImage, { height: this.state.height }]}
-          src="https://artwork-cdn.7static.com/static/img/sleeveart/00/051/614/0005161476_350.jpg"
+          src={this.props.artwork}
         />
       </div>
     );
@@ -104,6 +105,7 @@ const styles = {
     }
   },
   audioPlayer: {
+    margin: 15,
     background: "white",
     border: "1px solid blue",
     textAlign: "center",
