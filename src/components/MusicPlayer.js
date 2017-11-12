@@ -1,7 +1,6 @@
 import Radium from "radium";
 import React from "react";
-import Progress from "react-progressbar";
-import ReactFitText from "react-fittext";
+import Progress from "./Progress";
 
 @Radium
 export default class MusicPlayer extends React.Component {
@@ -17,7 +16,6 @@ export default class MusicPlayer extends React.Component {
   }
 
   _toggle() {
-    console.log("we changing");
     this.setState({
       playing: !this.state.playing
     });
@@ -32,10 +30,14 @@ export default class MusicPlayer extends React.Component {
             styles.playButton,
             {
               backgroundImage: this.state.playing
-                ? "url(/static/player/pause-button.png)"
-                : "url(/static/player/play-button.png)"
+                ? "url(/static/player/pause.svg)"
+                : "url(/static/player/play.svg)"
             }
           ]}
+        />
+        <img
+          style={[styles.albumImage, { height: this.state.height }]}
+          src={this.props.artwork}
         />
         <div style={styles.playerControls}>
           <p
@@ -44,7 +46,8 @@ export default class MusicPlayer extends React.Component {
               marginTop: this.state.height * 0.05,
               marginBottom: this.state.height * 0.05,
               marginLeft: 0,
-              marginRight: 0
+              marginRight: 0,
+              color: "white"
             }}
           >
             {this.props.title}
@@ -55,6 +58,7 @@ export default class MusicPlayer extends React.Component {
             <div style={{ textAlign: "center" }}>
               <small
                 style={{
+                  color: "#a0a0a0",
                   float: "left",
                   bottom: -3,
                   position: "relative",
@@ -66,12 +70,13 @@ export default class MusicPlayer extends React.Component {
               <div style={styles.progress}>
                 <Progress
                   height={5}
-                  color={"blue"}
+                  color={"#1ed760"}
                   completed={this.state.progress}
                 />
               </div>
               <small
                 style={{
+                  color: "#a0a0a0",
                   float: "right",
                   bottom: -3,
                   position: "relative",
@@ -83,10 +88,6 @@ export default class MusicPlayer extends React.Component {
             </div>
           </span>
         </div>
-        <img
-          style={[styles.albumImage, { height: this.state.height }]}
-          src={this.props.artwork}
-        />
       </div>
     );
   }
@@ -94,20 +95,28 @@ export default class MusicPlayer extends React.Component {
 
 const styles = {
   playButton: {
-    backgroundSize: "cover",
-    width: "75px",
-    height: "75px",
-    margin: "2rem 0 2rem 2rem",
-    opacity: 0.85,
+    position: "absolute",
+    height: 64,
+    left: 7,
+    top: 7,
+    backgroundColor: "transparent",
+    width: "64px",
+    transform: "scale(.6)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: 24,
+    backgroundColor: "rgba(0,0,0,.7)",
+    backgroundPosition: "55% 50%",
+    borderRadius: 500,
+    border: "1px solid #a0a0a0",
     cursor: "pointer",
     ":hover": {
-      opacity: 1
+      border: "1px solid #1ed760"
     }
   },
   audioPlayer: {
+    position: "relative",
     margin: 15,
-    background: "white",
-    border: "1px solid blue",
+    background: "#282828",
     textAlign: "center",
     display:
       "-webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex",
@@ -124,10 +133,10 @@ const styles = {
   },
   progress: {
     width: "90%",
-    borderRadius: "2px",
+    borderRadius: "3px",
     display: "inline-block",
-    border: "1px solid #dfdfdf",
-    appearance: "none"
+    border: "1px solid #transparent",
+    backgroundColor: "#404040"
   }
 };
 

@@ -16,10 +16,6 @@
     "radium": "^0.19.6",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
-    "react-fittext": "^1.0.0",
-    "react-progressbar": "^15.4.1",
-    "react-responsive-music-player": "^0.2.3",
-    "react-svg-morph": "^0.1.10",
     "url": "^0.11.0"
   },
   "scripts": {
